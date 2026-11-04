@@ -1,61 +1,29 @@
 # CloudNova — Architecture
 
-A clean overview of the deployed resume website, visitor counter, and automated deployment.
+The project is organized into three numbered stages. Follow the boxes **1 → 2 → 3**.
 
 ```mermaid
-flowchart TB
-    Visitor([Visitor / Browser])
+flowchart LR
+    S1["<b>1 · HOST THE WEBSITE</b><br/><br/>Visitor opens site<br/>↓<br/>Amazon CloudFront<br/>↓<br/>Amazon S3<br/><i>Static resume files</i>"]
+    S2["<b>2 · COUNT VISITORS</b><br/><br/>Website JavaScript<br/>↓ GET /visitors<br/>Amazon API Gateway<br/>↓<br/>AWS Lambda (Python)<br/>↓<br/>Amazon DynamoDB<br/><i>Increment and store count</i><br/><br/>Updated count returns to website"]
+    S3["<b>3 · DEPLOY AUTOMATICALLY</b><br/><br/>GitHub push to main<br/>↓<br/>GitHub Actions<br/>↓ OIDC<br/>AWS IAM Role<br/>↓<br/>Deploy website files to S3"]
 
-    subgraph WEB["1 · Resume Website"]
-      direction LR
-      CF["Amazon CloudFront<br/>CDN"] -->|"Fetches site files"| S3[("Amazon S3<br/>Static website files")]
-    end
+    S1 --> S2 --> S3
 
-    subgraph COUNT["2 · Visitor Counter"]
-      direction LR
-      FE["Website JavaScript"] -->|"GET /visitors"| API["Amazon API Gateway<br/>HTTP API"]
-      API -->|"Invoke"| Lambda["AWS Lambda<br/>Python"]
-      Lambda -->|"Increment count"| DB[("Amazon DynamoDB<br/>CloudNovaVisitors")]
-      DB -->|"Updated count"| Lambda
-      Lambda -->|"JSON response"| API
-      API -->|"Visitor count"| FE
-    end
+    classDef website fill:#EAF2FF,stroke:#2563EB,color:#12305A,stroke-width:2px;
+    classDef counter fill:#F3E8FF,stroke:#7C3AED,color:#3B176B,stroke-width:2px;
+    classDef deploy fill:#E8F7EC,stroke:#239447,color:#124B27,stroke-width:2px;
 
-    Visitor -->|"Opens website"| CF
-    CF -->|"Delivers page"| Visitor
-    S3 -.->|"Website includes"| FE
-
-    subgraph CICD["3 · Automated Deployment"]
-      direction LR
-      GitHub["GitHub Repository"] -->|"Push to main"| Actions["GitHub Actions"]
-      Actions -->|"OIDC role assumption"| IAM["AWS IAM Role"]
-      IAM -->|"Deploy static files"| S3
-    end
-
-    classDef visitor fill:#EAF2FF,stroke:#2563EB,color:#12305A,stroke-width:1.5px;
-    classDef edge fill:#F0E9FF,stroke:#7C3AED,color:#3B176B,stroke-width:1.5px;
-    classDef storage fill:#E8F7EC,stroke:#239447,color:#124B27,stroke-width:1.5px;
-    classDef api fill:#FFF0F5,stroke:#DB2777,color:#701A43,stroke-width:1.5px;
-    classDef compute fill:#FFF3E0,stroke:#EA580C,color:#7C2D12,stroke-width:1.5px;
-    classDef deploy fill:#E8F4FF,stroke:#0284C7,color:#0C4A6E,stroke-width:1.5px;
-
-    class Visitor visitor;
-    class CF edge;
-    class S3,DB storage;
-    class API api;
-    class Lambda compute;
-    class FE,GitHub,Actions,IAM deploy;
-
-    style WEB fill:#F8FAFF,stroke:#93B4E8,stroke-width:1.5px
-    style COUNT fill:#FFFAFC,stroke:#E9A3C4,stroke-width:1.5px
-    style CICD fill:#F4FAFF,stroke:#7CC4E8,stroke-width:1.5px
+    class S1 website;
+    class S2 counter;
+    class S3 deploy;
 ```
 
-## How it works
+## Request flow
 
-1. A visitor opens the resume website. CloudFront delivers the static files stored in S3.
-2. The website JavaScript calls API Gateway at `GET /visitors`.
+1. CloudFront delivers the resume website files stored in S3.
+2. The website calls API Gateway at `GET /visitors`.
 3. API Gateway invokes the Python Lambda function.
-4. Lambda increments the visitor count stored in DynamoDB.
-5. The updated count returns through API Gateway and appears on the website.
-6. GitHub Actions deploys website updates to S3 using AWS IAM OIDC—no long-lived AWS keys are stored in GitHub.
+4. Lambda increments the visitor count in DynamoDB.
+5. The updated count returns to the website and is displayed.
+6. GitHub Actions deploys website updates to S3 using AWS IAM OIDC authentication.
