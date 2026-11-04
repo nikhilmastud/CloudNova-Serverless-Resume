@@ -60,11 +60,11 @@
           <a href="https://github.com/nikhilmastud/netflix-style-3-tier-application" target="_blank" rel="noreferrer">View on GitHub ↗</a>
         </article>
         <article class="project-card project-next">
-          <div class="project-top"><span class="project-number">02</span><span class="project-tag">IN PROGRESS</span></div>
+          <div class="project-top"><span class="project-number">02</span><span class="project-tag">AWS · SERVERLESS</span></div>
           <h3>CloudNova</h3>
           <p>A serverless resume website with a live visitor counter, built with AWS services and automated deployment.</p>
-          <div class="chip-row"><span>S3</span><span>CloudFront</span><span>Lambda</span><span>DynamoDB</span></div>
-          <span class="project-status"><span class="status-dot"></span> Building now</span>
+          <div class="chip-row"><span>S3</span><span>CloudFront</span><span>Lambda</span><span>DynamoDB</span><span>API Gateway</span></div>
+          <span class="project-status"><span class="status-dot"></span> Deployed</span>
         </article>
       </div>
     </section>
@@ -79,6 +79,23 @@
     </section>
   </main>
 
-  <footer><span>© <span id="year"></span> Nikhil Mastud</span><span class="visitor-count">Visitors: <strong id="visitor-count">—</strong> <small>(counter setup pending)</small></span></footer>
+  <footer>
+    <span>© <span id="year"></span> Nikhil Mastud</span>
+    <span class="visitor-count">Visitors: <strong id="visitor-count">Loading...</strong></span>
+  </footer>
+
+  <script>
+    fetch("https://fuftm0s16d.execute-api.ap-south-1.amazonaws.com/visitors")
+      .then(response => {
+        if (!response.ok) throw new Error("Visitor API request failed");
+        return response.json();
+      })
+      .then(data => {
+        document.getElementById("visitor-count").textContent = data.count;
+      })
+      .catch(() => {
+        document.getElementById("visitor-count").textContent = "Unavailable";
+      });
+  </script>
 </body>
 </html>
