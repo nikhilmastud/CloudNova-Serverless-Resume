@@ -40,6 +40,14 @@ The website requests the visitor count from API Gateway. API Gateway invokes Lam
 3. The workflow deploys the website files to Amazon S3.
 4. Amazon CloudFront delivers the updated website.
 
+## Testing & Results
+
+- **100/100 successful API responses** in a 100-request test (100% success rate).
+- **204 ms average response time** across the 100-request latency test.
+- **100/100 successful responses** in a test of 100 requests using up to 10 concurrent workers (100% success rate).
+
+*These are results from controlled tests, not a guarantee of production uptime or capacity.*
+
 ## Tech Stack
 
 - HTML
@@ -60,3 +68,4 @@ CloudNova-Serverless-Resume/
 ├── index.html
 ├── styles.css
 └── README.md
+```
