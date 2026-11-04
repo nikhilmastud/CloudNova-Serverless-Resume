@@ -1,6 +1,6 @@
 # CloudNova — Serverless Resume Website
 
-A personal resume and portfolio website built with HTML, CSS, JavaScript, and AWS serverless services.
+A personal resume and portfolio website built with **HTML, CSS, JavaScript, and AWS serverless services**.
 
 ## Overview
 
@@ -31,13 +31,11 @@ CloudNova presents my professional profile, technical skills, and projects in a 
 2. **AWS Lambda** — processes visitor count requests
 3. **Amazon DynamoDB** — stores the visitor count
 
-When a visitor opens the website, the frontend requests the count from API Gateway. API Gateway invokes Lambda, which updates the count in DynamoDB and returns the latest value to the website.
+The website requests the visitor count from API Gateway. API Gateway invokes Lambda, which updates the count in DynamoDB and returns the latest value to the website.
 
 ## CI/CD Workflow
 
-GitHub Actions automates website deployment:
-
-1. A code change is pushed to the GitHub repository.
+1. Code changes are pushed to the GitHub repository.
 2. GitHub Actions authenticates with AWS using OpenID Connect (OIDC).
 3. The workflow deploys the website files to Amazon S3.
 4. Amazon CloudFront delivers the updated website.
