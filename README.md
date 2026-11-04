@@ -1,17 +1,18 @@
 # CloudNova — Serverless Resume Website
 
-A personal resume and portfolio website built with **HTML, CSS, JavaScript, and AWS serverless services**.
+A responsive resume and portfolio website built with **HTML, CSS, JavaScript, and AWS serverless services**. The project combines static website hosting, a serverless visitor counter, and automated deployment through GitHub Actions.
 
 ## Overview
 
-CloudNova presents my professional profile, technical skills, and projects in a responsive portfolio website. It also includes a visitor counter powered by AWS services.
+CloudNova presents my professional profile, technical skills, projects, and contact information. A visitor counter demonstrates an event-driven serverless backend using API Gateway, Lambda, and DynamoDB.
 
-## Live Website
+## Deployment Status
 
-[View CloudNova Resume](https://d3ksbq7u0m2hj2.cloudfront.net)
+The website was previously deployed using Amazon S3 and CloudFront. The AWS hosting resources have since been decommissioned to avoid ongoing charges, so the live demo link is currently unavailable. The repository and screenshots document the project.
 
-<img width="222" height="448" alt="image" src="https://github.com/user-attachments/assets/5f341a1b-6ac0-42fe-b44e-0952d4281518" />
+## Screenshot
 
+<img width="222" height="448" alt="CloudNova resume website screenshot" src="https://github.com/user-attachments/assets/5f341a1b-6ac0-42fe-b44e-0952d4281518" />
 
 ## Features
 
@@ -53,16 +54,13 @@ The website requests the visitor count from API Gateway. API Gateway invokes Lam
 
 ## Tech Stack
 
-- HTML
-- CSS
-- JavaScript
-- Amazon S3
-- Amazon CloudFront
-- Amazon API Gateway
+- HTML, CSS, JavaScript
+- Amazon S3 and Amazon CloudFront
+- Amazon API Gateway (HTTP API)
 - AWS Lambda (Python)
 - Amazon DynamoDB
 - GitHub Actions
-- AWS IAM OIDC
+- AWS IAM with OpenID Connect (OIDC)
 
 ## Repository Structure
 
