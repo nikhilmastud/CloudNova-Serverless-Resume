@@ -10,6 +10,9 @@ CloudNova presents my professional profile, technical skills, and projects in a 
 
 [View CloudNova Resume](https://d3ksbq7u0m2hj2.cloudfront.net)
 
+<img width="222" height="448" alt="image" src="https://github.com/user-attachments/assets/5f341a1b-6ac0-42fe-b44e-0952d4281518" />
+
+
 ## Features
 
 - Responsive resume and portfolio layout
