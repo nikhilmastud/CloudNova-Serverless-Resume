@@ -24,18 +24,29 @@ The website was previously deployed using Amazon S3 and CloudFront. The AWS host
 
 ## AWS Architecture
 
-### Website Hosting
+```mermaid
+flowchart LR
+    U([Visitor]) --> CF(CloudFront)
+    CF --> S3[(S3<br/>Static Website)]
+    S3 --> API(API Gateway<br/>HTTP API)
+    API --> L(Lambda<br/>Python)
+    L --> D[(DynamoDB<br/>Visitor Count)]
+    D --> L
+    L --> API
+    API --> S3
 
-1. **Amazon S3** — stores the website’s static files
-2. **Amazon CloudFront** — delivers the website through a content delivery network (CDN)
+    G([GitHub Actions]) -->|OIDC| AWS(AWS)
+    AWS --> S3
+    S3 --> CF
+```
 
-### Visitor Counter
+### Request Flow
 
-1. **Amazon API Gateway (HTTP API)** — exposes the visitor counter endpoint
-2. **AWS Lambda** — processes visitor count requests
-3. **Amazon DynamoDB** — stores the visitor count
-
-The website requests the visitor count from API Gateway. API Gateway invokes Lambda, which updates the count in DynamoDB and returns the latest value to the website.
+1. **Amazon CloudFront** delivers the static website files stored in **Amazon S3**.
+2. The website calls **Amazon API Gateway (HTTP API)** to retrieve the visitor count.
+3. API Gateway invokes **AWS Lambda (Python)**, which updates and reads the count in **Amazon DynamoDB**.
+4. Lambda returns the latest count through API Gateway to the website.
+5. **GitHub Actions** authenticates to AWS using **OpenID Connect (OIDC)** and deploys website changes to S3; CloudFront serves the updated files.
 
 ## CI/CD Workflow
 
