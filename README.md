@@ -6,9 +6,15 @@ A responsive resume and portfolio website built with **HTML, CSS, JavaScript, an
 
 CloudNova presents my professional profile, technical skills, projects, and contact information. A visitor counter demonstrates an event-driven serverless backend using API Gateway, Lambda, and DynamoDB.
 
+## Previously Deployed Site
+
+[Open the previous CloudFront deployment](https://d3ksbq7u0m2hj2.cloudfront.net/)
+
+*This URL was used during the project deployment. AWS hosting resources have since been decommissioned to avoid ongoing charges, so the site may no longer be accessible.*
+
 ## Deployment Status
 
-The website was previously deployed using Amazon S3 and CloudFront. The AWS hosting resources have since been decommissioned to avoid ongoing charges, so the live demo link is currently unavailable. The repository and screenshots document the project.
+The website was previously deployed using Amazon S3 and CloudFront. The AWS hosting resources have since been decommissioned to avoid ongoing charges. The repository and screenshots document the project.
 
 ## Screenshot
 
