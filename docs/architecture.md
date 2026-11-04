@@ -1,41 +1,21 @@
 # CloudNova — Architecture Diagram
 
-Simple flow diagram using shapes and arrows to show how the website, visitor counter, and deployment work.
-
 ```mermaid
-flowchart TB
-    V((Visitor))
+flowchart LR
+    V((Visitor)) -->|Opens site| CF[CloudFront]
+    CF -->|Loads page| S3[(Amazon S3<br/>Website files)]
 
-    subgraph HOST["1. Website Hosting"]
-      CF[CloudFront]
-      S3[(Amazon S3<br/>Website files)]
-      V -->|Opens website| CF
-      CF -->|Loads files| S3
-    end
+    S3 -.-> JS[Website JavaScript]
+    JS -->|GET /visitors| API[API Gateway]
+    API -->|Invokes| L[Lambda<br/>Python]
+    L -->|Increment count| DB[(DynamoDB<br/>Visitor count)]
+    DB -->|Updated count| L
+    L -->|JSON response| API
+    API -->|Displays count| JS
 
-    subgraph COUNT["2. Visitor Counter"]
-      JS[Website JavaScript]
-      API[API Gateway<br/>GET /visitors]
-      L[Lambda<br/>Python]
-      DB[(DynamoDB<br/>Visitor count)]
-
-      JS -->|Request count| API
-      API -->|Invokes| L
-      L -->|Increment count| DB
-      DB -->|Updated count| L
-      L -->|Returns JSON| API
-      API -->|Displays count| JS
-    end
-
-    S3 -.->|Serves page with| JS
-
-    subgraph DEPLOY["3. Automatic Deployment"]
-      GH([GitHub push])
-      GA[GitHub Actions]
-      IAM[AWS IAM Role<br/>OIDC]
-      GH --> GA --> IAM
-      IAM -->|Deploy files| S3
-    end
+    GH([GitHub push]) --> GA[GitHub Actions]
+    GA -->|OIDC| IAM[AWS IAM Role]
+    IAM -->|Deploy files| S3
 
     classDef user fill:#EAF2FF,stroke:#2563EB,color:#12305A,stroke-width:2px;
     classDef web fill:#F0E9FF,stroke:#7C3AED,color:#3B176B,stroke-width:2px;
@@ -54,7 +34,7 @@ flowchart TB
 
 ## Flow
 
-1. Visitor opens the CloudFront website; the page files are stored in S3.
+1. CloudFront serves the resume website files stored in S3.
 2. Website JavaScript requests the visitor count from API Gateway.
 3. API Gateway invokes Lambda, which increments the count in DynamoDB.
 4. The updated count returns to the website and is displayed.
