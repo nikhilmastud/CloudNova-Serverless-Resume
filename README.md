@@ -14,7 +14,25 @@
 
 ## Overview
 
-CloudNova is a responsive resume and portfolio website built with **HTML, CSS, and JavaScript**. It presents my profile, technical skills, projects, and contact information, with a dynamic visitor counter powered by an AWS serverless backend.
+CloudNova presents my professional profile, technical skills, projects, and contact information. A visitor counter demonstrates an event-driven serverless backend using API Gateway, Lambda, and DynamoDB.
+
+## Live Site
+
+[Open CloudNova Live Site](https://d3ksbq7u0m2hj2.cloudfront.net/)
+
+[Open the previous CloudFront deployment](https://d3ksbq7u0m2hj2.cloudfront.net/)
+
+*This URL was used during the project deployment. AWS hosting resources have since been decommissioned to avoid ongoing charges, so the site may no longer be accessible.*
+
+## Deployment Status
+
+The website was previously deployed using Amazon S3 and CloudFront. The AWS hosting resources have since been decommissioned to avoid ongoing charges. The repository and screenshots document the project.
+
+## Deployment Screenshot
+
+The screenshot below documents the website as it appeared during the deployment.
+
+<img width="222" height="448" alt="CloudNova resume website deployment screenshot" src="https://github.com/user-attachments/assets/5f341a1b-6ac0-42fe-b44e-0952d4281518" />
 
 ## Architecture
 
@@ -41,18 +59,6 @@ flowchart LR
 3. API Gateway invokes **AWS Lambda (Python)**, which reads and updates the count in **Amazon DynamoDB**.
 4. Lambda returns the result through API Gateway to the website.
 5. **GitHub Actions** uses **OpenID Connect (OIDC)** to authenticate with AWS and deploy website updates to S3.
-
-## Deployment Evidence
-
-The website was previously deployed using **Amazon S3 and CloudFront**. The AWS hosting resources have since been decommissioned to avoid ongoing charges; therefore, the historical CloudFront URL may no longer be accessible.
-
-[Open the previous CloudFront deployment](https://d3ksbq7u0m2hj2.cloudfront.net/)
-
-### Deployment screenshot
-
-The screenshot below documents the website as it appeared during the deployment.
-
-<img width="222" height="448" alt="CloudNova resume website deployment screenshot" src="https://github.com/user-attachments/assets/5f341a1b-6ac0-42fe-b44e-0952d4281518" />
 
 ## Testing Results
 
