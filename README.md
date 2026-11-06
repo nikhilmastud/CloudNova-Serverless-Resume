@@ -1,5 +1,7 @@
 # CloudNova — Serverless Resume Website
 
+![AWS Deployment Verified](https://img.shields.io/badge/AWS%20Deployment-Verified-success)
+
 A responsive resume and portfolio website built with **HTML, CSS, JavaScript, and AWS serverless services**. The project combines static website hosting, a serverless visitor counter, and automated deployment through GitHub Actions.
 
 ## Overview
