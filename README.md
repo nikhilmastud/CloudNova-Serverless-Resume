@@ -4,7 +4,7 @@
 
 ## Project Highlights
 
-**AWS, Python, API Gateway, Lambda, DynamoDB, GitHub Actions, IAM, OIDC**
+**AWS, Amazon S3, CloudFront, API Gateway, Lambda, DynamoDB, Python, GitHub Actions, IAM, OIDC**
 
 - Built a Python-based serverless visitor-counter backend integrating **3 AWS services**—API Gateway, Lambda, and DynamoDB—to process visitor-count read and update operations through REST API requests.
 - Achieved a **100% API success rate** across **100 requests** and tested concurrent request handling with up to **10 workers**, recording an average API response time of **204 ms**.
@@ -12,86 +12,69 @@
 
 [View Repository](https://github.com/nikhilmastud/CloudNova-Serverless-Resume)
 
-A responsive resume and portfolio website built with **HTML, CSS, JavaScript, and AWS serverless services**. The project combines static website hosting, a serverless visitor counter, and automated deployment through GitHub Actions.
-
 ## Overview
 
-CloudNova presents my professional profile, technical skills, projects, and contact information. A visitor counter demonstrates an event-driven serverless backend using API Gateway, Lambda, and DynamoDB.
+CloudNova is a responsive resume and portfolio website built with **HTML, CSS, and JavaScript**. It presents my profile, technical skills, projects, and contact information, with a dynamic visitor counter powered by an AWS serverless backend.
 
-## Live Site
-
-[Open CloudNova Live Site](https://d3ksbq7u0m2hj2.cloudfront.net/)
-
-[Open the previous CloudFront deployment](https://d3ksbq7u0m2hj2.cloudfront.net/)
-
-*This URL was used during the project deployment. AWS hosting resources have since been decommissioned to avoid ongoing charges, so the site may no longer be accessible.*
-
-## Deployment Status
-
-The website was previously deployed using Amazon S3 and CloudFront. The AWS hosting resources have since been decommissioned to avoid ongoing charges. The repository and screenshots document the project.
-
-## Screenshot
-
-<img width="222" height="448" alt="CloudNova resume website screenshot" src="https://github.com/user-attachments/assets/5f341a1b-6ac0-42fe-b44e-0952d4281518" />
-
-## Features
-
-- Responsive resume and portfolio layout
-- Sections for profile, skills, projects, and contact information
-- Dynamic visitor count retrieved from an API
-- Serverless backend for updating and storing the visitor count
-- Automated website deployment using GitHub Actions
-
-## AWS Architecture
+## Architecture
 
 ```mermaid
 flowchart LR
     U([Visitor]) --> CF(CloudFront)
-    CF --> S3[(S3<br/>Static Website)]
-    S3 --> API(API Gateway<br/>HTTP API)
-    API --> L(Lambda<br/>Python)
-    L --> D[(DynamoDB<br/>Visitor Count)]
+    CF --> S3[(S3 Static Website)]
+    S3 --> API(API Gateway HTTP API)
+    API --> L(Lambda Python)
+    L --> D[(DynamoDB Visitor Count)]
     D --> L
     L --> API
     API --> S3
 
-    G([GitHub Actions]) -->|OIDC| AWS(AWS)
+    G([GitHub Actions]) -->|OIDC| AWS(AWS IAM Role)
     AWS --> S3
     S3 --> CF
 ```
 
-### Request Flow
+### Request flow
 
 1. **Amazon CloudFront** delivers the static website files stored in **Amazon S3**.
-2. The website calls **Amazon API Gateway (HTTP API)** to retrieve the visitor count.
-3. API Gateway invokes **AWS Lambda (Python)**, which updates and reads the count in **Amazon DynamoDB**.
-4. Lambda returns the latest count through API Gateway to the website.
-5. **GitHub Actions** authenticates to AWS using **OpenID Connect (OIDC)** and deploys website changes to S3; CloudFront serves the updated files.
+2. The website sends visitor-counter requests to **Amazon API Gateway (HTTP API)**.
+3. API Gateway invokes **AWS Lambda (Python)**, which reads and updates the count in **Amazon DynamoDB**.
+4. Lambda returns the result through API Gateway to the website.
+5. **GitHub Actions** uses **OpenID Connect (OIDC)** to authenticate with AWS and deploy website updates to S3.
+
+## Deployment Evidence
+
+The website was previously deployed using **Amazon S3 and CloudFront**. The AWS hosting resources have since been decommissioned to avoid ongoing charges; therefore, the historical CloudFront URL may no longer be accessible.
+
+[Open the previous CloudFront deployment](https://d3ksbq7u0m2hj2.cloudfront.net/)
+
+### Deployment screenshot
+
+The screenshot below documents the website as it appeared during the deployment.
+
+<img width="222" height="448" alt="CloudNova resume website deployment screenshot" src="https://github.com/user-attachments/assets/5f341a1b-6ac0-42fe-b44e-0952d4281518" />
+
+## Testing Results
+
+- **API success rate:** 100/100 successful responses across 100 requests.
+- **Average API response time:** 204 ms across the 100-request latency test.
+- **Concurrent request test:** 100/100 successful responses using up to 10 concurrent workers.
+
+*These results are from controlled tests and do not represent a guarantee of production uptime or capacity.*
 
 ## CI/CD Workflow
 
 1. Code changes are pushed to the GitHub repository.
-2. GitHub Actions authenticates with AWS using OpenID Connect (OIDC).
-3. The workflow deploys the website files to Amazon S3.
-4. Amazon CloudFront delivers the updated website.
-
-## Testing & Results
-
-- **100/100 successful API responses** in a 100-request test (100% success rate).
-- **204 ms average response time** across the 100-request latency test.
-- **100/100 successful responses** in a test of 100 requests using up to 10 concurrent workers (100% success rate).
-
-*These are results from controlled tests, not a guarantee of production uptime or capacity.*
+2. GitHub Actions authenticates to AWS using OpenID Connect (OIDC) and an IAM role.
+3. The workflow deploys website files to Amazon S3.
+4. Amazon CloudFront serves the deployed website content.
 
 ## Tech Stack
 
-- HTML, CSS, JavaScript
-- Amazon S3 and Amazon CloudFront
-- Amazon API Gateway (HTTP API)
-- AWS Lambda (Python)
-- Amazon DynamoDB
-- GitHub Actions
-- AWS IAM with OpenID Connect (OIDC)
+- **Frontend:** HTML, CSS, JavaScript
+- **Hosting and CDN:** Amazon S3, Amazon CloudFront
+- **Serverless backend:** Amazon API Gateway, AWS Lambda (Python), Amazon DynamoDB
+- **CI/CD and security:** GitHub Actions, AWS IAM, OpenID Connect (OIDC)
 
 ## Repository Structure
 
